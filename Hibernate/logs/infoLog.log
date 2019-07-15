@@ -1,0 +1,5 @@
+INFO  | 12-07-2019 | 17:03:47 | com.epam.igorpystovit.model.Application -> 'infoLog'
+INFO  | 12-07-2019 | 17:04:31 | com.epam.igorpystovit.model.Application -> 'infoLog'
+DEBUG | 12-07-2019 | 17:04:31 | com.epam.igorpystovit.model.Application -> 'debugLog'
+INFO  | 12-07-2019 | 17:04:47 | com.epam.igorpystovit.model.Application -> 'infoLog'
+DEBUG | 12-07-2019 | 17:04:47 | com.epam.igorpystovit.model.Application -> 'debugLog'

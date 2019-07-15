@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <properties>
+        <property name="APP_LOG_PATH">logs</property>
+        <property name="APP_LOG_PATTERN">%-5p | %d{dd-MM-yyyy} | %d{HH:mm:ss} | %c -> '%m' %xEx{short} %n</property>
+        <property name="FILE_PATTERN">archive/runtime-%d{dd-MM-yyyy-|-hh-mm-ss}.log</property>
+    </properties>
+    <Appenders>
+        <console name="consoleAppender" follow="true" target="SYSTEM_OUT">
+            <patternlayout pattern="${APP_LOG_PATTERN}"/>
+        </console>
+
+         <rollingFile name="errorLog" fileName="${APP_LOG_PATH}/errorLog.log" filePattern="${APP_LOG_PATH}/${FILE_PATTERN}">
+             <patternlayout pattern="${APP_LOG_PATTERN}"/>
+             <levelRangeFilter minLevel="WARN" maxLevel="FATAL" onMatch="DENY" onMismatch="ACCEPT"/>
+             <policies>
+                 <sizeBasedTriggeringPolicy size="100KB"/>
+             </policies>
+         </rollingFile>
+
+
+        <rollingFile name="infoLog" fileName="${APP_LOG_PATH}/infoLog.log" filePattern="${APP_LOG_PATH}/${FILE_PATTERN}">
+            <patternlayout pattern="${APP_LOG_PATTERN}"/>
+            <levelRangeFilter minLevel="INFO" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <policies>
+                <sizeBasedTriggeringPolicy size="100KB"/>
+            </policies>
+        </rollingFile>
+    </Appenders>
+
+    <loggers>
+        <logger name="com.epam.igorpystovit.model.FlightsEntity" additivity="false" level="all">
+            <appenderRef ref="consoleAppender" level="all"/>
+            <appenderRef ref="errorLog" level="warn"/>
+            <appenderRef ref="infoLog" level="debug"/>
+        </logger>
+    </loggers>
+</configuration>
