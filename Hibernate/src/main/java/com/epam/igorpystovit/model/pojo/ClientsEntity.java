@@ -1,4 +1,4 @@
-package com.epam.igorpystovit.model;
+package com.epam.igorpystovit.model.pojo;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,12 +14,11 @@ public class ClientsEntity {
     private Collection<OrdersEntity> ordersById;
 
     public ClientsEntity(){}
-
-    public ClientsEntity(int id, String name, String surname, BigDecimal cash) {
+    public ClientsEntity(int id, String name, String surname, long cash) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.cash = cash;
+        this.cash = new BigDecimal(cash);
     }
 
     @Id
@@ -33,7 +32,7 @@ public class ClientsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "name",insertable = false,updatable = false)
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -43,7 +42,7 @@ public class ClientsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "surname",insertable = false,updatable = false)
+    @Column(name = "surname")
     public String getSurname() {
         return surname;
     }
@@ -53,7 +52,7 @@ public class ClientsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "cash",insertable = false,updatable = false)
+    @Column(name = "cash")
     public BigDecimal getCash() {
         return cash;
     }

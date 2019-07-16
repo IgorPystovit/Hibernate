@@ -1,4 +1,4 @@
-package com.epam.igorpystovit.model;
+package com.epam.igorpystovit.model.pojo;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,6 +25,24 @@ public class FlightsEntity {
     private PlanesCompaniesEntity planesCompaniesByPlaneId;
     private Collection<OrdersEntity> ordersById;
 
+    private DateTimeParser dateTimeParser = new DateTimeParser();
+
+    public FlightsEntity(){}
+    public FlightsEntity(int id, Integer companyId, int departureTownId, int arrivalTownId,
+                         String departureDate, String departureTime, String arrivalDate, String arrivalTime, int planeId, long price) {
+        this.id = id;
+        this.companyId = companyId;
+        this.departureTownId = departureTownId;
+        this.arrivalTownId = arrivalTownId;
+        this.departureDate = dateTimeParser.dateParser(departureDate);
+        this.departureTime = dateTimeParser.timeParser(departureTime);
+        this.arrivalDate = dateTimeParser.dateParser(arrivalDate);
+        this.arrivalTime = dateTimeParser.timeParser(arrivalTime);
+        this.planeId = planeId;
+        this.price = new BigDecimal(price);
+        System.out.println(departureDate+" "+arrivalDate+" "+departureTime+" "+arrivalTime);
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {
@@ -36,7 +54,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "company_id",insertable = false,updatable = false)
+    @Column(name = "company_id")
     public Integer getCompanyId() {
         return companyId;
     }
@@ -46,7 +64,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "departure_town_id",insertable = false,updatable = false)
+    @Column(name = "departure_town_id")
     public int getDepartureTownId() {
         return departureTownId;
     }
@@ -56,7 +74,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "arrival_town_id",insertable = false,updatable = false)
+    @Column(name = "arrival_town_id")
     public int getArrivalTownId() {
         return arrivalTownId;
     }
@@ -66,7 +84,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "departure_date",insertable = false,updatable = false)
+    @Column(name = "departure_date")
     public Date getDepartureDate() {
         return departureDate;
     }
@@ -76,7 +94,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "departure_time",insertable = false,updatable = false)
+    @Column(name = "departure_time")
     public Time getDepartureTime() {
         return departureTime;
     }
@@ -86,7 +104,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "arrival_date",insertable = false,updatable = false)
+    @Column(name = "arrival_date")
     public Date getArrivalDate() {
         return arrivalDate;
     }
@@ -96,7 +114,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "arrival_time",insertable = false,updatable = false)
+    @Column(name = "arrival_time")
     public Time getArrivalTime() {
         return arrivalTime;
     }
@@ -106,7 +124,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "plane_id",insertable = false,updatable = false)
+    @Column(name = "plane_id")
     public int getPlaneId() {
         return planeId;
     }
@@ -116,7 +134,7 @@ public class FlightsEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "price",insertable = false,updatable = false)
+    @Column(name = "price")
     public BigDecimal getPrice() {
         return price;
     }
@@ -164,7 +182,7 @@ public class FlightsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    @JoinColumn(name = "company_id", referencedColumnName = "id",insertable = false,updatable = false)
     public CompaniesEntity getCompaniesByCompanyId() {
         return companiesByCompanyId;
     }
@@ -174,7 +192,7 @@ public class FlightsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "departure_town_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "departure_town_id", referencedColumnName = "id",insertable = false,updatable = false)
     public TownsEntity getTownsByDepartureTownId() {
         return townsByDepartureTownId;
     }
@@ -184,7 +202,7 @@ public class FlightsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "arrival_town_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "arrival_town_id", referencedColumnName = "id",insertable = false,updatable = false)
     public TownsEntity getTownsByArrivalTownId() {
         return townsByArrivalTownId;
     }
@@ -194,7 +212,7 @@ public class FlightsEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "plane_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "plane_id", referencedColumnName = "id",insertable = false,updatable = false)
     public PlanesCompaniesEntity getPlanesCompaniesByPlaneId() {
         return planesCompaniesByPlaneId;
     }
@@ -210,5 +228,15 @@ public class FlightsEntity {
 
     public void setOrdersById(Collection<OrdersEntity> ordersById) {
         this.ordersById = ordersById;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("id = "+id+"\t"+" Company id = "+companyId+"\t"+" Departure town id = "+departureTownId+"\t"+
+                " Arrival town id = "+arrivalTownId+"\t"+" Departure date = "+departureDate+"\t"+" Departure time = "+departureTime+"\t"+
+                " Arrival date = "+arrivalDate+"\t"+" Arrival time = "+arrivalTime+"\t"+" Plane id = "+ planeId +"\t"+" Price = "+price);
+        return sb.toString();
     }
 }

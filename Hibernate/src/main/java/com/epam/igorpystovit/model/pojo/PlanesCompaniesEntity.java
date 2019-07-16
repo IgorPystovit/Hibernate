@@ -1,7 +1,13 @@
-package com.epam.igorpystovit.model;
+package com.epam.igorpystovit.model.pojo;
+
+import com.epam.igorpystovit.model.dao.implementations.CompaniesDAOImpl;
+import com.epam.igorpystovit.model.dao.implementations.PlanesCompaniesDAOImpl;
+import com.epam.igorpystovit.model.dao.implementations.PlanesDAOImpl;
+import com.epam.igorpystovit.model.pojo.sessionmanager.SessionManager;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "Planes_Companies", schema = "Airport", catalog = "")
@@ -14,6 +20,14 @@ public class PlanesCompaniesEntity {
     private CompaniesEntity companiesByCompanyId;
     private PlanesEntity planesByPlaneId;
 
+    public PlanesCompaniesEntity(){}
+    public PlanesCompaniesEntity(int id, int companyId, int planeId, Integer availableSeats) {
+        this.id = id;
+        this.companyId = companyId;
+        this.planeId = planeId;
+        this.availableSeats = availableSeats;
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {
@@ -25,7 +39,7 @@ public class PlanesCompaniesEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "company_id",insertable = false,updatable = false)
+    @Column(name = "company_id")
     public int getCompanyId() {
         return companyId;
     }
@@ -35,7 +49,7 @@ public class PlanesCompaniesEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "plane_id",insertable = false,updatable = false)
+    @Column(name = "plane_id")
     public int getPlaneId() {
         return planeId;
     }
@@ -45,7 +59,7 @@ public class PlanesCompaniesEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "available_seats",insertable = false,updatable = false)
+    @Column(name = "available_seats")
     public Integer getAvailableSeats() {
         return availableSeats;
     }
@@ -89,7 +103,7 @@ public class PlanesCompaniesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "id",nullable = false,insertable = false,updatable = false)
     public CompaniesEntity getCompaniesByCompanyId() {
         return companiesByCompanyId;
     }
@@ -99,12 +113,20 @@ public class PlanesCompaniesEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "plane_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "plane_id", referencedColumnName = "id",nullable = false,insertable = false,updatable = false)
     public PlanesEntity getPlanesByPlaneId() {
         return planesByPlaneId;
     }
 
     public void setPlanesByPlaneId(PlanesEntity planesByPlaneId) {
         this.planesByPlaneId = planesByPlaneId;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" id = "+id+"\t"+" Company id = "+companyId+"\t"+" Plane id = "+
+                planeId +"\t"+" Available seats = "+availableSeats+"\n");
+        return sb.toString();
     }
 }

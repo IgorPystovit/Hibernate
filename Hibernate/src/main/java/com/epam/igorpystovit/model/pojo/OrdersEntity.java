@@ -1,4 +1,4 @@
-package com.epam.igorpystovit.model;
+package com.epam.igorpystovit.model.pojo;
 
 import javax.persistence.*;
 
@@ -11,8 +11,15 @@ public class OrdersEntity {
     private ClientsEntity clientsByClientId;
     private FlightsEntity flightsByFlightId;
 
+    public OrdersEntity(){}
+    public OrdersEntity(int id, int clientId, int flightId) {
+        this.id = id;
+        this.clientId = clientId;
+        this.flightId = flightId;
+    }
+
     @Id
-    @Column(name = "id",insertable = false,updatable = false)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -22,7 +29,7 @@ public class OrdersEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "client_id",insertable = false,updatable = false)
+    @Column(name = "client_id")
     public int getClientId() {
         return clientId;
     }
@@ -32,7 +39,7 @@ public class OrdersEntity {
     }
 
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "flight_id",insertable = false,updatable = false)
+    @Column(name = "flight_id")
     public int getFlightId() {
         return flightId;
     }
@@ -64,7 +71,7 @@ public class OrdersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "id",insertable = false,updatable = false)
     public ClientsEntity getClientsByClientId() {
         return clientsByClientId;
     }
@@ -74,12 +81,19 @@ public class OrdersEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "flight_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "flight_id", referencedColumnName = "id",insertable = false,updatable = false)
     public FlightsEntity getFlightsByFlightId() {
         return flightsByFlightId;
     }
 
     public void setFlightsByFlightId(FlightsEntity flightsByFlightId) {
         this.flightsByFlightId = flightsByFlightId;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" id = "+id+"\t"+" Client id ="+clientId+"\t"+" Flight id = "+flightId+"\n");
+        return sb.toString();
     }
 }

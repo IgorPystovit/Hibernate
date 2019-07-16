@@ -29,7 +29,7 @@
     </Appenders>
 
     <loggers>
-        <logger name="com.epam.igorpystovit.model.FlightsEntity" additivity="false" level="all">
+        <logger name="com.epam.igorpystovit" additivity="false" level="all">
             <appenderRef ref="consoleAppender" level="all"/>
             <appenderRef ref="errorLog" level="warn"/>
             <appenderRef ref="infoLog" level="debug"/>

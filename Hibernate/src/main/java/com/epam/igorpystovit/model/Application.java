@@ -1,36 +1,31 @@
 package com.epam.igorpystovit.model;
 
-import com.epam.igorpystovit.dao.ClientsDAOImpl;
-import com.epam.igorpystovit.dao.OrderDAOImpl;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.Criteria;
+import com.epam.igorpystovit.model.dao.implementations.*;
+import com.epam.igorpystovit.model.pojo.FlightsEntity;
+import com.epam.igorpystovit.model.pojo.PlanesCompaniesEntity;
+import com.epam.igorpystovit.model.pojo.sessionmanager.SessionManager;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 public class Application {
-    private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-
-    public static Session getSession(){
-        return sessionFactory.openSession();
-    }
-
     public static void main(String[] args) {
-        ClientsDAOImpl clientsDAO = new ClientsDAOImpl();
-        OrderDAOImpl orderDAO = new OrderDAOImpl();
-        Session session = getSession();
-
+        Session session = SessionManager.getSession();
         try{
-            clientsDAO.createClient(session,new ClientsEntity(4,"Sth","Smb",new BigDecimal(3000)));
-            clientsDAO.getAllClients(session).forEach(System.out::println);
+            PlanesCompaniesDAOImpl planesCompaniesDAO = new PlanesCompaniesDAOImpl();
+            TownsDAOImpl townsDAO = new TownsDAOImpl();
+            CompaniesDAOImpl companiesDAO = new CompaniesDAOImpl();
+            FlightsDAOImpl flightsDAO = new FlightsDAOImpl();
+//            flightsDAO.update(session,
+//                    new FlightsEntity(3,2,2,1,
+//                            "20120911","120000","20110909","200020",3,21000));
+//            flightsDAO.create(session,new FlightsEntity(5,2,2,1,
+//                    "2012-12-12","13:00:00","2012-12-12","20:00:00",3,2100));
+            flightsDAO.getAll(session).forEach(System.out::println);
         } finally {
             session.close();
+            SessionManager.shutdown();
         }
 
     }

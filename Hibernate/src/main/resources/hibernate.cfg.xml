@@ -12,12 +12,12 @@
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <mapping class="com.epam.igorpystovit.model.ClientsEntity"/>
-    <mapping class="com.epam.igorpystovit.model.CompaniesEntity"/>
-    <mapping class="com.epam.igorpystovit.model.FlightsEntity"/>
-    <mapping class="com.epam.igorpystovit.model.OrdersEntity"/>
-    <mapping class="com.epam.igorpystovit.model.PlanesEntity"/>
-    <mapping class="com.epam.igorpystovit.model.PlanesCompaniesEntity"/>
-    <mapping class="com.epam.igorpystovit.model.TownsEntity"/>
+    <mapping class="com.epam.igorpystovit.model.pojo.ClientsEntity"/>
+    <mapping class="com.epam.igorpystovit.model.pojo.CompaniesEntity"/>
+    <mapping class="com.epam.igorpystovit.model.pojo.FlightsEntity"/>
+    <mapping class="com.epam.igorpystovit.model.pojo.OrdersEntity"/>
+    <mapping class="com.epam.igorpystovit.model.pojo.PlanesEntity"/>
+    <mapping class="com.epam.igorpystovit.model.pojo.PlanesCompaniesEntity"/>
+    <mapping class="com.epam.igorpystovit.model.pojo.TownsEntity"/>
 </session-factory>
 </hibernate-configuration>

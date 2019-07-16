@@ -1,15 +1,22 @@
-package com.epam.igorpystovit.model;
+package com.epam.igorpystovit.model.pojo;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "Companies", schema = "Airport", catalog = "")
-public class CompaniesEntity {
+@Table(name = "Towns", schema = "Airport", catalog = "")
+public class TownsEntity {
     private int id;
     private String name;
     private Collection<FlightsEntity> flightsById;
-    private Collection<PlanesCompaniesEntity> planesCompaniesById;
+    private Collection<FlightsEntity> flightsById_0;
+
+    public TownsEntity(){}
+
+    public TownsEntity(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @Id
     @Column(name = "id")
@@ -36,7 +43,7 @@ public class CompaniesEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CompaniesEntity that = (CompaniesEntity) o;
+        TownsEntity that = (TownsEntity) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
@@ -51,7 +58,7 @@ public class CompaniesEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "companiesByCompanyId")
+    @OneToMany(mappedBy = "townsByDepartureTownId")
     public Collection<FlightsEntity> getFlightsById() {
         return flightsById;
     }
@@ -60,12 +67,19 @@ public class CompaniesEntity {
         this.flightsById = flightsById;
     }
 
-    @OneToMany(mappedBy = "companiesByCompanyId")
-    public Collection<PlanesCompaniesEntity> getPlanesCompaniesById() {
-        return planesCompaniesById;
+    @OneToMany(mappedBy = "townsByArrivalTownId")
+    public Collection<FlightsEntity> getFlightsById_0() {
+        return flightsById_0;
     }
 
-    public void setPlanesCompaniesById(Collection<PlanesCompaniesEntity> planesCompaniesById) {
-        this.planesCompaniesById = planesCompaniesById;
+    public void setFlightsById_0(Collection<FlightsEntity> flightsById_0) {
+        this.flightsById_0 = flightsById_0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("id = "+id+"\t"+" town name = "+name+"\n");
+        return sb.toString();
     }
 }
