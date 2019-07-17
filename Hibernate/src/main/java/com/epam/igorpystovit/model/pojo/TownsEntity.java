@@ -8,8 +8,8 @@ import java.util.Collection;
 public class TownsEntity {
     private int id;
     private String name;
-    private Collection<FlightsEntity> flightsById;
-    private Collection<FlightsEntity> flightsById_0;
+    private Collection<FlightsEntity> flightsById_departure;
+    private Collection<FlightsEntity> flightsById_arrival;
 
     public TownsEntity(){}
 
@@ -59,21 +59,21 @@ public class TownsEntity {
     }
 
     @OneToMany(mappedBy = "townsByDepartureTownId")
-    public Collection<FlightsEntity> getFlightsById() {
-        return flightsById;
+    public Collection<FlightsEntity> getFlightsById_departure() {
+        return flightsById_departure;
     }
 
-    public void setFlightsById(Collection<FlightsEntity> flightsById) {
-        this.flightsById = flightsById;
+    public void setFlightsById_departure(Collection<FlightsEntity> flightsById_departure) {
+        this.flightsById_departure = flightsById_departure;
     }
 
     @OneToMany(mappedBy = "townsByArrivalTownId")
-    public Collection<FlightsEntity> getFlightsById_0() {
-        return flightsById_0;
+    public Collection<FlightsEntity> getFlightsById_arrival() {
+        return flightsById_arrival;
     }
 
-    public void setFlightsById_0(Collection<FlightsEntity> flightsById_0) {
-        this.flightsById_0 = flightsById_0;
+    public void setFlightsById_arrival(Collection<FlightsEntity> flightsById_arrival) {
+        this.flightsById_arrival = flightsById_arrival;
     }
 
     @Override

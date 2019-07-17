@@ -1,4 +1,4 @@
-package com.epam.igorpystovit.model.services;
+package com.epam.igorpystovit.services;
 
 import com.epam.igorpystovit.model.dao.interfaces.GeneralDAO;
 

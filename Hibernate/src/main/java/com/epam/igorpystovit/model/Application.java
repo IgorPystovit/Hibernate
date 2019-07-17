@@ -1,9 +1,12 @@
 package com.epam.igorpystovit.model;
 
 import com.epam.igorpystovit.model.dao.implementations.*;
+import com.epam.igorpystovit.model.pojo.ClientsEntity;
 import com.epam.igorpystovit.model.pojo.FlightsEntity;
+import com.epam.igorpystovit.model.pojo.OrdersEntity;
 import com.epam.igorpystovit.model.pojo.PlanesCompaniesEntity;
 import com.epam.igorpystovit.model.pojo.sessionmanager.SessionManager;
+import com.epam.igorpystovit.services.*;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -13,16 +16,17 @@ public class Application {
     public static void main(String[] args) {
         Session session = SessionManager.getSession();
         try{
-            PlanesCompaniesDAOImpl planesCompaniesDAO = new PlanesCompaniesDAOImpl();
-            TownsDAOImpl townsDAO = new TownsDAOImpl();
-            CompaniesDAOImpl companiesDAO = new CompaniesDAOImpl();
-            FlightsDAOImpl flightsDAO = new FlightsDAOImpl();
-//            flightsDAO.update(session,
-//                    new FlightsEntity(3,2,2,1,
-//                            "20120911","120000","20110909","200020",3,21000));
-//            flightsDAO.create(session,new FlightsEntity(5,2,2,1,
-//                    "2012-12-12","13:00:00","2012-12-12","20:00:00",3,2100));
-            flightsDAO.getAll(session).forEach(System.out::println);
+            PlanesCompaniesService planesCompaniesService = new PlanesCompaniesService();
+            TownsService townsService = new TownsService();
+            FlightsService flightsService = new FlightsService();
+            ClientService clientService = new ClientService();
+            OrdersService ordersService = new OrdersService();
+//            flightsService.create(session,new FlightsEntity(2,1,3,
+//                    "20110101","210000","20110102","093000",9,2000));
+//            clientService.update(session,new ClientsEntity(1,"Some","Client",20000));
+            ordersService.update(session,new OrdersEntity(1,1,1));
+//            ordersService.delete(session,1);
+            clientService.getAll(session).forEach(System.out::println);
         } finally {
             session.close();
             SessionManager.shutdown();

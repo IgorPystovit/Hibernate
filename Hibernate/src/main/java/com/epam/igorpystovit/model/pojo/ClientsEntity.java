@@ -10,15 +10,15 @@ public class ClientsEntity {
     private int id;
     private String name;
     private String surname;
-    private BigDecimal cash;
+    private double cash;
     private Collection<OrdersEntity> ordersById;
 
     public ClientsEntity(){}
-    public ClientsEntity(int id, String name, String surname, long cash) {
+    public ClientsEntity(int id, String name, String surname, double cash) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.cash = new BigDecimal(cash);
+        this.cash = cash;
     }
 
     @Id
@@ -53,11 +53,11 @@ public class ClientsEntity {
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "cash")
-    public BigDecimal getCash() {
+    public double getCash() {
         return cash;
     }
 
-    public void setCash(BigDecimal cash) {
+    public void setCash(double cash) {
         this.cash = cash;
     }
 
@@ -71,7 +71,6 @@ public class ClientsEntity {
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
-        if (cash != null ? !cash.equals(that.cash) : that.cash != null) return false;
 
         return true;
     }
@@ -81,7 +80,6 @@ public class ClientsEntity {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + (cash != null ? cash.hashCode() : 0);
         return result;
     }
 

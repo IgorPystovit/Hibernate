@@ -7,3 +7,4 @@ FATAL | 12-07-2019 | 17:04:31 | com.epam.igorpystovit.model.Application -> 'fata
 ERROR | 12-07-2019 | 17:04:46 | com.epam.igorpystovit.model.Application -> 'errorLog'
 WARN  | 12-07-2019 | 17:04:47 | com.epam.igorpystovit.model.Application -> 'warnLog'
 FATAL | 12-07-2019 | 17:04:47 | com.epam.igorpystovit.model.Application -> 'fatalLog'
+ERROR | 17-07-2019 | 18:01:40 | com.epam.igorpystovit.model.dao.interfaces.GeneralDAO -> 'Something went wrong while creating row'  

@@ -4,11 +4,10 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "Companies", schema = "Airport", catalog = "")
+@Table(name = "Companies", schema = "Airport")
 public class CompaniesEntity {
     private int id;
     private String name;
-    private Collection<FlightsEntity> flightsById;
     private Collection<PlanesCompaniesEntity> planesCompaniesById;
 
     public CompaniesEntity(){}
@@ -57,14 +56,7 @@ public class CompaniesEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "companiesByCompanyId")
-    public Collection<FlightsEntity> getFlightsById() {
-        return flightsById;
-    }
 
-    public void setFlightsById(Collection<FlightsEntity> flightsById) {
-        this.flightsById = flightsById;
-    }
 
     @OneToMany(mappedBy = "companiesByCompanyId")
     public Collection<PlanesCompaniesEntity> getPlanesCompaniesById() {

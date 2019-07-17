@@ -1,37 +1,38 @@
-package com.epam.igorpystovit.model.services;
+package com.epam.igorpystovit.services;
 
 import com.epam.igorpystovit.model.dao.implementations.ClientsDAOImpl;
+import com.epam.igorpystovit.model.dao.interfaces.ClientsDAO;
 import com.epam.igorpystovit.model.pojo.ClientsEntity;
 import org.hibernate.Session;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ClientsService implements Service<ClientsEntity,Integer>{
-    private ClientsDAOImpl clientsDAO = new ClientsDAOImpl();
+public class ClientService implements Service<ClientsEntity,Integer>, ClientsDAO {
+    private static final ClientsDAOImpl CLIENTS_DAO = new ClientsDAOImpl();
 
     @Override
     public List<ClientsEntity> getAll(Session session) {
-        return clientsDAO.getAll(session);
+        return CLIENTS_DAO.getAll(session);
     }
 
     @Override
     public Optional<ClientsEntity> getById(Session session, Integer id) {
-        return clientsDAO.getById(session,id);
+        return CLIENTS_DAO.getById(session,id);
     }
 
     @Override
     public void create(Session session, ClientsEntity entity) {
-        clientsDAO.create(session,entity);
+        CLIENTS_DAO.create(session,entity);
     }
 
     @Override
     public void update(Session session, ClientsEntity entity) {
-        clientsDAO.update(session,entity);
+        CLIENTS_DAO.update(session,entity);
     }
 
     @Override
     public void delete(Session session, Integer id) {
-        clientsDAO.delete(session,id);
+        CLIENTS_DAO.delete(session,id);
     }
 }

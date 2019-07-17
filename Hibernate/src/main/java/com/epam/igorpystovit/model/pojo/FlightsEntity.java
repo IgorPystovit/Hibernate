@@ -7,19 +7,17 @@ import java.sql.Time;
 import java.util.Collection;
 
 @Entity
-@Table(name = "Flights", schema = "Airport", catalog = "")
+@Table(name = "Flights", schema = "Airport")
 public class FlightsEntity {
     private int id;
-    private Integer companyId;
     private int departureTownId;
     private int arrivalTownId;
     private Date departureDate;
     private Time departureTime;
     private Date arrivalDate;
     private Time arrivalTime;
-    private int planeId;
-    private BigDecimal price;
-    private CompaniesEntity companiesByCompanyId;
+    private int planeCompanyId;
+    private double price;
     private TownsEntity townsByDepartureTownId;
     private TownsEntity townsByArrivalTownId;
     private PlanesCompaniesEntity planesCompaniesByPlaneId;
@@ -28,19 +26,17 @@ public class FlightsEntity {
     private DateTimeParser dateTimeParser = new DateTimeParser();
 
     public FlightsEntity(){}
-    public FlightsEntity(int id, Integer companyId, int departureTownId, int arrivalTownId,
-                         String departureDate, String departureTime, String arrivalDate, String arrivalTime, int planeId, long price) {
+    public FlightsEntity(int id, int departureTownId, int arrivalTownId,
+                         String departureDate, String departureTime, String arrivalDate, String arrivalTime, int planeCompanyId, double price) {
         this.id = id;
-        this.companyId = companyId;
         this.departureTownId = departureTownId;
         this.arrivalTownId = arrivalTownId;
         this.departureDate = dateTimeParser.dateParser(departureDate);
         this.departureTime = dateTimeParser.timeParser(departureTime);
         this.arrivalDate = dateTimeParser.dateParser(arrivalDate);
         this.arrivalTime = dateTimeParser.timeParser(arrivalTime);
-        this.planeId = planeId;
-        this.price = new BigDecimal(price);
-        System.out.println(departureDate+" "+arrivalDate+" "+departureTime+" "+arrivalTime);
+        this.planeCompanyId = planeCompanyId;
+        this.price = price;
     }
 
     @Id
@@ -51,16 +47,6 @@ public class FlightsEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "company_id")
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
     }
 
     @Basic(fetch = FetchType.LAZY)
@@ -85,61 +71,61 @@ public class FlightsEntity {
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "departure_date")
-    public Date getDepartureDate() {
-        return departureDate;
+    public String getDepartureDate() {
+        return departureDate.toString();
     }
 
-    public void setDepartureDate(Date departureDate) {
-        this.departureDate = departureDate;
+    public void setDepartureDate(String departureDate) {
+        this.departureDate = dateTimeParser.dateParser(departureDate);
     }
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "departure_time")
-    public Time getDepartureTime() {
-        return departureTime;
+    public String getDepartureTime() {
+        return departureTime.toString();
     }
 
-    public void setDepartureTime(Time departureTime) {
-        this.departureTime = departureTime;
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = dateTimeParser.timeParser(departureTime);
     }
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "arrival_date")
-    public Date getArrivalDate() {
-        return arrivalDate;
+    public String getArrivalDate() {
+        return arrivalDate.toString();
     }
 
-    public void setArrivalDate(Date arrivalDate) {
-        this.arrivalDate = arrivalDate;
+    public void setArrivalDate(String arrivalDate) {
+        this.arrivalDate = dateTimeParser.dateParser(arrivalDate);
     }
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "arrival_time")
-    public Time getArrivalTime() {
-        return arrivalTime;
+    public String getArrivalTime() {
+        return arrivalTime.toString();
     }
 
-    public void setArrivalTime(Time arrivalTime) {
-        this.arrivalTime = arrivalTime;
+    public void setArrivalTime(String arrivalTime) {
+        this.arrivalTime = dateTimeParser.timeParser(arrivalTime);
     }
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "plane_id")
-    public int getPlaneId() {
-        return planeId;
+    public int getPlaneCompanyId() {
+        return planeCompanyId;
     }
 
-    public void setPlaneId(int planeId) {
-        this.planeId = planeId;
+    public void setPlaneCompanyId(int planeId) {
+        this.planeCompanyId = planeId;
     }
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "price")
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -153,15 +139,13 @@ public class FlightsEntity {
         if (id != that.id) return false;
         if (departureTownId != that.departureTownId) return false;
         if (arrivalTownId != that.arrivalTownId) return false;
-        if (planeId != that.planeId) return false;
-        if (companyId != null ? !companyId.equals(that.companyId) : that.companyId != null) return false;
+        if (planeCompanyId != that.planeCompanyId) return false;
         if (departureDate != null ? !departureDate.equals(that.departureDate) : that.departureDate != null)
             return false;
         if (departureTime != null ? !departureTime.equals(that.departureTime) : that.departureTime != null)
             return false;
         if (arrivalDate != null ? !arrivalDate.equals(that.arrivalDate) : that.arrivalDate != null) return false;
         if (arrivalTime != null ? !arrivalTime.equals(that.arrivalTime) : that.arrivalTime != null) return false;
-        if (price != null ? !price.equals(that.price) : that.price != null) return false;
 
         return true;
     }
@@ -169,27 +153,17 @@ public class FlightsEntity {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (companyId != null ? companyId.hashCode() : 0);
         result = 31 * result + departureTownId;
         result = 31 * result + arrivalTownId;
         result = 31 * result + (departureDate != null ? departureDate.hashCode() : 0);
         result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
         result = 31 * result + (arrivalDate != null ? arrivalDate.hashCode() : 0);
         result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
-        result = 31 * result + planeId;
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + planeCompanyId;
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", referencedColumnName = "id",insertable = false,updatable = false)
-    public CompaniesEntity getCompaniesByCompanyId() {
-        return companiesByCompanyId;
-    }
 
-    public void setCompaniesByCompanyId(CompaniesEntity companiesByCompanyId) {
-        this.companiesByCompanyId = companiesByCompanyId;
-    }
 
     @ManyToOne
     @JoinColumn(name = "departure_town_id", referencedColumnName = "id",insertable = false,updatable = false)
@@ -234,9 +208,9 @@ public class FlightsEntity {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("id = "+id+"\t"+" Company id = "+companyId+"\t"+" Departure town id = "+departureTownId+"\t"+
+        sb.append("id = "+id+"\t"+" Departure town id = "+departureTownId+"\t"+
                 " Arrival town id = "+arrivalTownId+"\t"+" Departure date = "+departureDate+"\t"+" Departure time = "+departureTime+"\t"+
-                " Arrival date = "+arrivalDate+"\t"+" Arrival time = "+arrivalTime+"\t"+" Plane id = "+ planeId +"\t"+" Price = "+price);
+                " Arrival date = "+arrivalDate+"\t"+" Arrival time = "+arrivalTime+"\t"+" Plane id = "+ planeCompanyId +"\t"+" Price = "+price);
         return sb.toString();
     }
 }

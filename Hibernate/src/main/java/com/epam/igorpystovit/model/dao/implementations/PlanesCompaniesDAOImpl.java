@@ -1,8 +1,10 @@
 package com.epam.igorpystovit.model.dao.implementations;
 
 import com.epam.igorpystovit.model.dao.interfaces.PlanesCompaniesDAO;
+import com.epam.igorpystovit.model.pojo.CompaniesEntity;
 import com.epam.igorpystovit.model.pojo.DateTimeParser;
 import com.epam.igorpystovit.model.pojo.PlanesCompaniesEntity;
+import com.epam.igorpystovit.model.pojo.PlanesEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -36,11 +38,14 @@ public class PlanesCompaniesDAOImpl implements PlanesCompaniesDAO {
     public void create(Session session, PlanesCompaniesEntity entity) {
         CompaniesDAOImpl companiesDAO = new CompaniesDAOImpl();
         PlanesDAOImpl planesDAO = new PlanesDAOImpl();
-        DateTimeParser dateTimeParser = new DateTimeParser();
         if (!isPresent(session,entity.getId())){
+            CompaniesEntity company = companiesDAO.getById(session,entity.getCompanyId()).get();
+            PlanesEntity plane = planesDAO.getById(session,entity.getPlaneId()).get();
             session.beginTransaction();
-            entity.setCompaniesByCompanyId(companiesDAO.getById(session,entity.getCompanyId()).get());
-            entity.setPlanesByPlaneId(planesDAO.getById(session,entity.getPlaneId()).get());
+            entity.setCompaniesByCompanyId(company);
+            entity.setPlanesByPlaneId(plane);
+            company.getPlanesCompaniesById().add(entity);
+            plane.getPlanesCompaniesById().add(entity);
             session.save(entity);
             session.getTransaction().commit();
         }
@@ -69,10 +74,30 @@ public class PlanesCompaniesDAOImpl implements PlanesCompaniesDAO {
     }
 
     @Override
-    public void delete(Session session, Integer id) {
-        if (isPresent(session,id)){
+    public void updateSeatNum(Session session,Integer id, Integer newAvailableSeatsNum) {
+        if (isPresent(session, id)){
+            PlanesCompaniesEntity planeCompany = getById(session, id).get();
             session.beginTransaction();
-            session.remove(getById(session,id).get());
+            planeCompany.setAvailableSeats(newAvailableSeatsNum);
+            session.getTransaction().commit();
+        }
+        else{
+            logger.info("A row you are trying to update does not exist");
+        }
+    }
+
+    @Override
+    public void delete(Session session, Integer id) {
+        CompaniesDAOImpl companiesDAO = new CompaniesDAOImpl();
+        PlanesDAOImpl planesDAO = new PlanesDAOImpl();
+        if (isPresent(session,id)){
+            PlanesCompaniesEntity planeCompany = getById(session,id).get();
+            CompaniesEntity company = companiesDAO.getById(session,planeCompany.getCompanyId()).get();
+            PlanesEntity plane = planesDAO.getById(session,planeCompany.getPlaneId()).get();
+            session.beginTransaction();
+            company.getPlanesCompaniesById().remove(planeCompany);
+            plane.getPlanesCompaniesById().remove(planeCompany);
+            session.remove(planeCompany);
             session.getTransaction().commit();
         }
         else {
