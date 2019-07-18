@@ -24,9 +24,11 @@ public class Application {
 //            flightsService.create(session,new FlightsEntity(2,1,3,
 //                    "20110101","210000","20110102","093000",9,2000));
 //            clientService.update(session,new ClientsEntity(1,"Some","Client",20000));
-            ordersService.update(session,new OrdersEntity(1,1,1));
+//            ordersService.update(session,new OrdersEntity(1,1,1));
 //            ordersService.delete(session,1);
-            clientService.getAll(session).forEach(System.out::println);
+            flightsService.update(session,new FlightsEntity(2,1,3,
+                    "20110101","210000","20110102","093000",1,200));
+            flightsService.getAll(session).forEach(System.out::println);
         } finally {
             session.close();
             SessionManager.shutdown();

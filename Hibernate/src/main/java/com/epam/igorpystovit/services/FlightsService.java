@@ -59,11 +59,19 @@ public class FlightsService implements Service<FlightsEntity,Integer>, FlightsDA
     @Override
     public void update(Session session, FlightsEntity entity) {
         if ((PLANES_COMPANIES_SERVICE.isPresent(session,entity.getPlaneCompanyId())) &&
-                (TOWNS_SERVICE.isPresent(session,entity.getDepartureTownId()))&&
-                (TOWNS_SERVICE.isPresent(session,entity.getArrivalTownId()))){
+                (TOWNS_SERVICE.isPresent(session,entity.getDepartureTownId())) &&
+                (TOWNS_SERVICE.isPresent(session,entity.getArrivalTownId())) &&
+                (FLIGHTS_DAO.isPresent(session,entity.getId()))){
+            FlightsEntity oldFlight = FLIGHTS_DAO.getById(session,entity.getId()).get();
             if (entity.getDepartureTownId() == entity.getArrivalTownId()){
                 logger.info("Departure town and arrival town are the same");
                 return;
+            }
+            if (oldFlight.getPlaneCompanyId() != entity.getPlaneCompanyId()){
+                if (isPlaneCompanyIdPresent(session,entity.getPlaneCompanyId())){
+                    logger.error("This plane is already be taken");
+                    return;
+                }
             }
             FLIGHTS_DAO.update(session,entity);
         }
